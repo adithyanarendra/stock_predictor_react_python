@@ -1,0 +1,6 @@
+Flask
+psycopg2
+pandas
+scikit-learn
+requests
+schedule
