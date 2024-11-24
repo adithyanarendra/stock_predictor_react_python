@@ -1,6 +1,7 @@
-Flask
-psycopg2
-pandas
-scikit-learn
+flask
+flask-cors
 requests
-schedule
+pandas
+psycopg2
+sqlalchemy
+scikit-learn
