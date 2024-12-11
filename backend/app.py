@@ -22,7 +22,7 @@ def get_accuracy():
 
 @app.route('/train_model', methods=['GET'])
 def train_stock_model():
-    stock_symbols = ['HDFCBANK', 'TCS', 'INFY', 'HINDUNILVR', 'RELIANCE.NS', 'TATAMOTORS']  # List of stock symbols for training
+    stock_symbols = ['HDFCBANK', 'TCS', 'INFY', 'HINDUNILVR', 'RELIANCE.NS', 'TATAMOTORS']
     stock_data = fetch_stock_data(stock_symbols)
     
     # Train models and store them in a dictionary
