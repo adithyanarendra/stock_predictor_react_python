@@ -6,7 +6,7 @@ def fetch_stock_data(stock_symbols):
     """
     Fetch historic stock data from Alpha Vantage.
     """
-    base_url = "https://www.alphavantage.co/query"
+    base_url = "https://www.alphavantage.co/query?"
     data = {}
 
     for symbol in stock_symbols:
@@ -14,11 +14,16 @@ def fetch_stock_data(stock_symbols):
             "function": "TIME_SERIES_INTRADAY",
             "symbol": symbol,
             "interval": "30min",
-            "apikey": ALPHA_VANTAGE_API_KEY
+            "apikey": ALPHA_VANTAGE_API_KEY,
+            # "extended_hours":true,
         }
         response = requests.get(base_url, params=params)
+
+        print(f"Fetching data for {symbol}: Status {response.status_code}")
         if response.status_code == 200:
             time_series = response.json().get("Time Series (30min)", {})
+
+            print(f"Data for {symbol}: {time_series.keys() if time_series else 'No data returned'}") 
             if time_series:
                 # Convert the data to a pandas DataFrame
                 df = pd.DataFrame.from_dict(time_series, orient="index")

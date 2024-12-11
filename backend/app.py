@@ -22,7 +22,7 @@ def get_accuracy():
 
 @app.route('/train_model', methods=['GET'])
 def train_stock_model():
-    stock_symbols = ['HDFCBANK', 'TCS', 'INFY', 'HINDUNILVR', 'RELIANCE.NS', 'TATAMOTORS']
+    stock_symbols = ['HDFCBANK', 'TCS', 'INFY', 'HINDUNILVR', 'RELIANCE.NSE', 'TATAMOTORS', 'RELIANCE.BSE']
     stock_data = fetch_stock_data(stock_symbols)
     
     # Train models and store them in a dictionary
@@ -36,7 +36,7 @@ def train_stock_model():
 
 @app.route('/get_prediction', methods=['GET'])
 def get_prediction():
-    stock_symbols = ['HDFCBANK', 'TCS', 'INFY', 'HINDUNILVR', 'RELIANCE.NS', 'TATAMOTORS']
+    stock_symbols = ['HDFCBANK', 'TCS', 'INFY', 'HINDUNILVR', 'RELIANCE.NSE', 'TATAMOTORS', 'RELIANCE.BSE']
     stock_data = fetch_stock_data(stock_symbols)
     
     # Train models to use for predictions
