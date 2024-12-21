@@ -132,8 +132,8 @@ console.log(predictions);
                   } - Predicted: ₹${prediction.predicted_price.toFixed(2)}`}
                   secondary={`Actual: ₹${prediction.actual_price.toFixed(
                     2
-                  )} | Accuracy: ${prediction.accuracy}% |  Accuracy: ${
-                    prediction.accuracy
+                  )} | MAPE: ${prediction?.accuracy?.MAPE}% |  RMSE: ${
+                    prediction?.accuracy?.RMSE
                   }% | ${new Date(prediction.timestamp).toLocaleString()}`}
                 />
               </ListItem>
