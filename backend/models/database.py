@@ -45,23 +45,34 @@ def init_db():
             timestamp TIMESTAMP,
             actual_price FLOAT,
             predicted_price FLOAT,
-            accuracy FLOAT
+            mape FLOAT,
+            rmse FLOAT
         )
     """)
+    
+    try:
+        cursor.execute("""
+            ALTER TABLE predictions
+            ADD COLUMN IF NOT EXISTS mape FLOAT,
+            ADD COLUMN IF NOT EXISTS rmse FLOAT
+        """)
+    except Exception as e:
+        print(f"Error updating table: {e}")
+
     conn.commit()
     conn.close()
     print("Database initialized and table created successfully.")
 
-def insert_prediction(stock_symbol, timestamp, actual_price, predicted_price, accuracy):
+def insert_prediction(stock_symbol, timestamp, actual_price, predicted_price, mape, rmse):
     """
     Insert prediction data into the database.
     """
     conn = create_connection(database=DB_CONFIG["database"])
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO predictions (stock_symbol, timestamp, actual_price, predicted_price, accuracy)
-        VALUES (%s, %s, %s, %s, %s)
-    """, (stock_symbol, timestamp, actual_price, predicted_price, accuracy))
+        INSERT INTO predictions (stock_symbol, timestamp, actual_price, predicted_price, mape, rmse)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (stock_symbol, timestamp, actual_price, predicted_price, mape, rmse))
     conn.commit()
     conn.close()
     print(f"Inserted prediction for {stock_symbol} at {timestamp}.")

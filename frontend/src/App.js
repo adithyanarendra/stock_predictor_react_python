@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, Typography, Box, List, ListItem, ListItemText, CircularProgress } from "@mui/material";
+import "./App.css";
+
+import {
+  Button,
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress,
+} from "@mui/material";
 import { initializeDb, trainModel, getPredictions } from "./services/api";
 
 function App() {
@@ -51,75 +61,99 @@ function App() {
       fetchPredictions(); // Refresh predictions after training
     }
   };
+console.log(predictions);
 
   return (
-    <Box sx={{ padding: "16px", maxWidth: "800px", margin: "0 auto" }}>
-      <Typography variant="h4" align="center" gutterBottom>
-        Stock Prediction Dashboard
-      </Typography>
-
-      {/* Feedback Message */}
-      {message && (
-        <Typography variant="body1" color="primary" align="center" gutterBottom>
-          {message}
+    <>
+      <Box sx={{ padding: "16px", maxWidth: "800px", margin: "0 auto" }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Stock Prediction Dashboard
         </Typography>
-      )}
 
-      {/* Buttons for actions */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleInitializeDb}
-          disabled={loading}
+        {/* Feedback Message */}
+        {message && (
+          <Typography
+            variant="body1"
+            color="primary"
+            align="center"
+            gutterBottom
+          >
+            {message}
+          </Typography>
+        )}
+
+        {/* Buttons for actions */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "16px",
+          }}
         >
-          {loading ? <CircularProgress size={20} /> : "Initialize DB"}
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleTrainModel}
-          disabled={loading}
-        >
-          {loading ? <CircularProgress size={20} /> : "Train Model"}
-        </Button>
-        <Button
-          variant="contained"
-          color="success"
-          onClick={fetchPredictions}
-          disabled={loading}
-        >
-          {loading ? <CircularProgress size={20} /> : "Refresh Predictions"}
-        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleInitializeDb}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={20} /> : "Initialize DB"}
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleTrainModel}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={20} /> : "Train Model"}
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={fetchPredictions}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={20} /> : "Refresh Predictions"}
+          </Button>
+        </Box>
+
+        {/* Predictions List */}
+        <Typography variant="h5" gutterBottom>
+          Predictions
+        </Typography>
+        {loading ? (
+          <CircularProgress />
+        ) : predictions.length > 0 ? (
+          <List>
+            {predictions.map((prediction, index) => (
+              <ListItem key={index} divider>
+                <ListItemText
+                  primary={`${
+                    prediction.stock_symbol
+                  } - Predicted: ₹${prediction.predicted_price.toFixed(2)}`}
+                  secondary={`Actual: ₹${prediction.actual_price.toFixed(
+                    2
+                  )} | Accuracy: ${prediction.accuracy}% |  Accuracy: ${
+                    prediction.accuracy
+                  }% | ${new Date(prediction.timestamp).toLocaleString()}`}
+                />
+              </ListItem>
+            ))}
+          </List>
+        ) : (
+          <Typography>
+            No predictions available. Train the model to generate predictions.
+          </Typography>
+        )}
       </Box>
-
-      {/* Predictions List */}
-      <Typography variant="h5" gutterBottom>
-        Predictions
-      </Typography>
-      {loading ? (
-        <CircularProgress />
-      ) : predictions.length > 0 ? (
-        <List>
-          {predictions.map((prediction, index) => (
-            <ListItem key={index} divider>
-              <ListItemText
-                primary={`${prediction.stock_symbol} - Predicted: $${prediction.predicted_price.toFixed(
-                  2
-                )}`}
-                secondary={`Actual: $${prediction.actual_price.toFixed(
-                  2
-                )} | Accuracy: ${prediction.accuracy}% | ${new Date(
-                  prediction.timestamp
-                ).toLocaleString()}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-      ) : (
-        <Typography>No predictions available. Train the model to generate predictions.</Typography>
-      )}
-    </Box>
+      {/* <div className="heartContainer">
+      <span className="heartHdr">Will you marry me?</span>
+      <div className="heartImage">❤️</div>
+      <div><button>Yes!</button>
+      <button>Yessssssssssssssssss!</button>
+      <button>Yessssssssssssssssssasssssssssssssssssssssssssssss!</button>
+      </div>
+    </div> */}
+    </>
   );
 }
 
